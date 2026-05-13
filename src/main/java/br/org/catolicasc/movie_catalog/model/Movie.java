@@ -18,7 +18,9 @@ public class Movie {
     @NotBlank
     private String title;
 
-    private String director;
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
 
     private Integer releaseYear;
 
@@ -44,11 +46,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getDirector() {
+    public Director getDirector() {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(Director director) {
         this.director = director;
     }
 

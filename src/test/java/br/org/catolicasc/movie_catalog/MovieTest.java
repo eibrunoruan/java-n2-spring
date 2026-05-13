@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import br.org.catolicasc.movie_catalog.model.Genre;
 import br.org.catolicasc.movie_catalog.model.Movie;
+import br.org.catolicasc.movie_catalog.repository.DirectorRepository;
 import br.org.catolicasc.movie_catalog.repository.GenreRepository;
 import br.org.catolicasc.movie_catalog.repository.MovieRepository;
 
@@ -22,13 +23,16 @@ class MovieTest {
     @Autowired
     private GenreRepository genreRepository;
 
+    @Autowired
+    private DirectorRepository directorRepository;
+
     @Test
     void testSaveMovie() {
         Genre genre = genreRepository.findByName("Action").getFirst();
 
         Movie movie = new Movie();
         movie.setTitle("Mad Max: Fury Road");
-        movie.setDirector("George Miller");
+        movie.setDirector(directorRepository.findByName("Ridley Scott").getFirst());
         movie.setReleaseYear(2015);
         movie.setRating(8.1);
         movie.setGenre(genre);
@@ -45,7 +49,7 @@ class MovieTest {
         List<Movie> movies = movieRepository.findByTitle("Inception");
 
         assertThat(movies).isNotEmpty();
-        assertThat(movies.getFirst().getDirector()).isEqualTo("Christopher Nolan");
+        assertThat(movies.getFirst().getDirector().getName()).isEqualTo("Christopher Nolan");
     }
 
     @Test
